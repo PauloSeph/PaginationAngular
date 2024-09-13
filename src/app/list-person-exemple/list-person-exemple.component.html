@@ -1,0 +1,31 @@
+<!-- <router-outlet /> -->
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Nome</th>
+      <th>Idade</th>
+      <th>Altura</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    @for (item of paginatedData(); track $index) {
+    <tr>
+      <th>{{ item.id }}</th>
+      <th>{{ item.name }}</th>
+      <th>{{ item.age }}</th>
+      <th>{{ item.stature }}</th>
+    </tr>
+    }
+  </tbody>
+</table>
+
+<app-pagination
+  #pagination
+  [collectionSize]="data.length"
+  [pageSize]="itemsPerPage"
+  [firstLastButtons]="true"
+  [maxSize]="3"
+  (pageSelect)="changePage($event)"
+></app-pagination>

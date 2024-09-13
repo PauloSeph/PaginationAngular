@@ -1,0 +1,50 @@
+<nav>
+  <ul [class]="small ? 'pagination pagination-sm' : 'pagination'">
+    <!-- first button vai para primeira pagina -->
+    @if (firstLastButtons) {
+    <li [class]="currentPage === 1 ? 'page-item disabled' : 'page-item'">
+      <button class="page-link" (click)="selectPageNumber(1)">«« ultimo</button>
+    </li>
+    }
+    <!-- previous button -->
+    @if (nextPreviousButtons) {
+    <li [class]="currentPage === 1 ? 'page-item disabled' : 'page-item'">
+      <button class="page-link" (click)="previous()">« previous</button>
+    </li>
+    }
+
+    <!-- page numbers -->
+    @for (page of totalPages; track $index) { @if ($index + 1 > currentPage -
+    maxSize && $index + 1 <= currentPage + maxSize ) {
+    <li [class]="currentPage === $index + 1 ? 'page-item active' : 'page-item'">
+      <button class="page-link" (click)="selectPageNumber($index + 1)">
+        {{ $index + 1 }}
+      </button>
+    </li>
+    } }
+
+    <!-- next button -->
+    @if ( nextPreviousButtons ) {
+    <li
+      [class]="
+        currentPage === totalPages.length ? 'page-item disabled' : 'page-item'
+      "
+    >
+      <button class="page-link" (click)="next()">Proximo »</button>
+    </li>
+    }
+
+    <!-- last button -->
+    @if ( nextPreviousButtons ) {
+    <li
+      [class]="
+        currentPage === totalPages.length ? 'page-item disabled' : 'page-item'
+      "
+    >
+      <button class="page-link" (click)="selectPageNumber(totalPages.length)">
+        Ultimo »» {{ totalPages.length }}
+      </button>
+    </li>
+    }
+  </ul>
+</nav>
