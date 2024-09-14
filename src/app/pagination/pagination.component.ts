@@ -25,7 +25,7 @@ export class PaginationComponent {
   @Input() currentPage = 1;
 
   /** The number of buttons to show either side of the current page - maximo de botões que aparecerão */
-  @Input() maxSize = 3;
+  @Input() maxSize = 2;
 
   /** Display the First/Last buttons - mostrar o primeiro e ultimo button*/
   @Input() firstLastButtons = false;
@@ -39,11 +39,14 @@ export class PaginationComponent {
   /** Notifica o pai com o valor atual da pagina selecioanda */
   @Output() pageSelect = new EventEmitter<number>();
 
+  /** variavel usada para armazena a quantidade de paginas, para serem definidas os botões */
   totalPages: number[] = [];
 
   // Total de pages é determinado pelo tamanho do tamanho da pagina.
 
-  /** Gerando uma sequencia de elementos na Array com base no total de paginas */
+  /** Gerando uma sequencia de posições no Array com base no total de paginas */
+  // ele nao gera dados igualmente como na paginação simples que vimos. Por isso os indices é o que contaram nesse caso,
+  // cada indice corresponde a uma pagina.
   public generateSequence() {
     this.totalPages = Array(Math.ceil(this.collectionSize / this.pageSize));
   }
@@ -65,7 +68,7 @@ export class PaginationComponent {
   /** Set next page number */
   next() {
     const nextPage = this.currentPage + 1;
-    // nextPage <= this.totalPages.length && this.selectPageNumber(nextPage);
+    // nextPage <= this.totalPages.length && this.selectPageNumber(nextPage); // Equivalente a sintaxe tradicional (porém sintaxe resumida para verificar a expressao e se for verdadeira chamaria o metodo)
     if (nextPage <= this.totalPages.length) {
       this.selectPageNumber(nextPage);
       this.pageSelect.emit(this.currentPage);

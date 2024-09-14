@@ -1,15 +1,15 @@
 <nav>
   <ul [class]="small ? 'pagination pagination-sm' : 'pagination'">
-    <!-- first button vai para primeira pagina -->
+    <!-- first button vai para primeira pagina «« -->
     @if (firstLastButtons) {
     <li [class]="currentPage === 1 ? 'page-item disabled' : 'page-item'">
-      <button class="page-link" (click)="selectPageNumber(1)">«« ultimo</button>
+      <button class="firstBt" (click)="selectPageNumber(1)">««</button>
     </li>
     }
     <!-- previous button -->
     @if (nextPreviousButtons) {
     <li [class]="currentPage === 1 ? 'page-item disabled' : 'page-item'">
-      <button class="page-link" (click)="previous()">« previous</button>
+      <button (click)="previous()">«</button>
     </li>
     }
 
@@ -17,11 +17,14 @@
     @for (page of totalPages; track $index) { @if ($index + 1 > currentPage -
     maxSize && $index + 1 <= currentPage + maxSize ) {
     <li [class]="currentPage === $index + 1 ? 'page-item active' : 'page-item'">
-      <button class="page-link" (click)="selectPageNumber($index + 1)">
+      <button
+        [ngClass]="{ active: $index + 1 === currentPage }"
+        (click)="selectPageNumber($index + 1)"
+      >
         {{ $index + 1 }}
       </button>
     </li>
-    } }
+    }}
 
     <!-- next button -->
     @if ( nextPreviousButtons ) {
@@ -30,7 +33,7 @@
         currentPage === totalPages.length ? 'page-item disabled' : 'page-item'
       "
     >
-      <button class="page-link" (click)="next()">Proximo »</button>
+      <button class="nextBt" (click)="next()">»</button>
     </li>
     }
 
@@ -41,10 +44,12 @@
         currentPage === totalPages.length ? 'page-item disabled' : 'page-item'
       "
     >
-      <button class="page-link" (click)="selectPageNumber(totalPages.length)">
-        Ultimo »» {{ totalPages.length }}
+      <button class="previousBt" (click)="selectPageNumber(totalPages.length)">
+        »»
       </button>
     </li>
     }
   </ul>
+
+  <p id="infoPagination">{{ currentPage }} de {{ totalPages.length }}</p>
 </nav>

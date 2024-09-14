@@ -30,5 +30,7 @@ tbody {
 
 app-pagination {
     grid-column: 1 / 13;
+    display: grid;
     justify-self: center;
+    margin-top: 10px;
 }
