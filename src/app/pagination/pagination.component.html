@@ -1,54 +1,43 @@
 <nav>
   <ul [class]="small ? 'pagination pagination-sm' : 'pagination'">
-    <!-- first button vai para primeira pagina «« -->
+
+    <!-- first button vai para primeira pagina -->
     @if (firstLastButtons) {
-    <li [class]="currentPage === 1 ? 'page-item disabled' : 'page-item'">
+    <li [class]="verificForDisabled(1)">
       <button class="firstBt" (click)="selectPageNumber(1)">««</button>
     </li>
     }
     <!-- previous button -->
     @if (nextPreviousButtons) {
-    <li [class]="currentPage === 1 ? 'page-item disabled' : 'page-item'">
+    <li [class]="verificForDisabled(1)">
       <button (click)="previous()">«</button>
     </li>
     }
 
     <!-- page numbers -->
-    @for (page of totalPages; track $index) { @if ($index + 1 > currentPage -
-    maxSize && $index + 1 <= currentPage + maxSize ) {
-    <li [class]="currentPage === $index + 1 ? 'page-item active' : 'page-item'">
-      <button
-        [ngClass]="{ active: $index + 1 === currentPage }"
-        (click)="selectPageNumber($index + 1)"
-      >
+    @for (page of totalPages; track $index) { @if ($index + 2 > currentPage -
+    maxSize && $index + 2 <= currentPage + maxSize ) { <li>
+      <button [ngClass]="{ active: $index + 1 === currentPage }" (click)="selectPageNumber($index + 1)">
         {{ $index + 1 }}
       </button>
-    </li>
-    }}
+      </li>
+      }}
 
-    <!-- next button -->
-    @if ( nextPreviousButtons ) {
-    <li
-      [class]="
-        currentPage === totalPages.length ? 'page-item disabled' : 'page-item'
-      "
-    >
-      <button class="nextBt" (click)="next()">»</button>
-    </li>
-    }
+      <!-- next button -->
+      @if ( nextPreviousButtons ) {
+      <li [class]="verificForDisabled(totalPages.length)">
+        <button class="nextBt" (click)="next()">»</button>
+      </li>
+      }
 
-    <!-- last button -->
-    @if ( nextPreviousButtons ) {
-    <li
-      [class]="
-        currentPage === totalPages.length ? 'page-item disabled' : 'page-item'
-      "
-    >
-      <button class="previousBt" (click)="selectPageNumber(totalPages.length)">
-        »»
-      </button>
-    </li>
-    }
+      <!-- last button -->
+      @if ( nextPreviousButtons ) {
+      <li [class]="verificForDisabled(totalPages.length)">
+        <button class="previousBt" (click)="selectPageNumber(totalPages.length)">
+          »»
+        </button>
+      </li>
+      }
   </ul>
 
   <p id="infoPagination">{{ currentPage }} de {{ totalPages.length }}</p>

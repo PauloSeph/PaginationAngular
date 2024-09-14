@@ -24,8 +24,8 @@ export class PaginationComponent {
   /** Current page - pagina atual*/
   @Input() currentPage = 1;
 
-  /** The number of buttons to show either side of the current page - maximo de botões que aparecerão */
-  @Input() maxSize = 2;
+  /** The number of buttons to show either side of the current page */
+  @Input() maxSize = 3;
 
   /** Display the First/Last buttons - mostrar o primeiro e ultimo button*/
   @Input() firstLastButtons = false;
@@ -83,5 +83,9 @@ export class PaginationComponent {
       this.selectPageNumber(previousPage);
       this.pageSelect.emit(this.currentPage);
     }
+  }
+
+  verificForDisabled(value: number) {
+    return this.currentPage === value ? "disabled" : "page-item";
   }
 }
