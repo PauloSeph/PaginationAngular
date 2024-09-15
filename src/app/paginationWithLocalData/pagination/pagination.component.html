@@ -2,13 +2,13 @@
   <ul [class]="small ? 'pagination pagination-sm' : 'pagination'">
 
     <!-- first button vai para primeira pagina -->
-    @if (firstLastButtons) {
+    @if (ShowFirstLastButtons) {
     <li [class]="verificForDisabled(1)">
       <button class="firstBt" (click)="selectPageNumber(1)">««</button>
     </li>
     }
     <!-- previous button -->
-    @if (nextPreviousButtons) {
+    @if (showNextPreviousButtons) {
     <li [class]="verificForDisabled(1)">
       <button (click)="previous()">«</button>
     </li>
@@ -24,14 +24,14 @@
       }}
 
       <!-- next button -->
-      @if ( nextPreviousButtons ) {
+      @if ( showNextPreviousButtons ) {
       <li [class]="verificForDisabled(totalPages.length)">
         <button class="nextBt" (click)="next()">»</button>
       </li>
       }
 
       <!-- last button -->
-      @if ( nextPreviousButtons ) {
+      @if ( ShowFirstLastButtons ) {
       <li [class]="verificForDisabled(totalPages.length)">
         <button class="previousBt" (click)="selectPageNumber(totalPages.length)">
           »»

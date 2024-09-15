@@ -28,10 +28,10 @@ export class PaginationComponent {
   @Input() maxSize = 3;
 
   /** Display the First/Last buttons - mostrar o primeiro e ultimo button*/
-  @Input() firstLastButtons = false;
+  @Input() ShowFirstLastButtons = true;
 
   /** Display the Next/Previous buttons - mostrar o next e previous button*/
-  @Input() nextPreviousButtons = true;
+  @Input() showNextPreviousButtons = true;
 
   /** Display small pagination buttons - isso é para aplicar estilo CSS */
   @Input() small = false;

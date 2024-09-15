@@ -21,11 +21,5 @@
   </tbody>
 </table>
 
-<app-pagination
-  #pagination
-  [collectionSize]="data.length"
-  [pageSize]="itemsPerPage"
-  [firstLastButtons]="true"
-  [maxSize]="3"
-  (pageSelect)="changePage($event)"
-></app-pagination>
+<app-pagination #pagination [collectionSize]="data.length" [pageSize]="itemsPerPage" [ShowFirstLastButtons]="true"
+  [maxSize]="3" (pageSelect)="changePage($event)"></app-pagination>

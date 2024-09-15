@@ -1,7 +1,9 @@
 import { Routes } from "@angular/router";
-import { ListPersonExempleComponent } from "./list-person-exemple/list-person-exemple.component";
+import { ListPersonExempleComponent } from "./paginationWithLocalData/list-person-exemple/list-person-exemple.component";
+import { ProductListComponent } from "./paginationWithRemoteData/product-list/product-list.component";
 
 export const routes: Routes = [
-  { path: "", redirectTo: "personList", pathMatch: "full" },
+  { path: "", redirectTo: "productList", pathMatch: "full" },
   { path: "personList", component: ListPersonExempleComponent },
+  { path: "productList", component: ProductListComponent },
 ];

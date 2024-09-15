@@ -1,0 +1,44 @@
+<nav>
+  <ul [class]="small ? 'pagination pagination-sm' : 'pagination'">
+
+    <!-- first button vai para primeira pagina -->
+    @if (showFirstLastButtons) {
+    <li [class]="verificForDisabled(1)">
+      <button class="firstBt" (click)="selectPageNumber(1)">««</button>
+    </li>
+    }
+    <!-- previous button -->
+    @if (showNextPreviousButtons) {
+    <li [class]="verificForDisabled(1)">
+      <button (click)="previous()">«</button>
+    </li>
+    }
+
+    <!-- page numbers -->
+    @for (page of totalPages; track $index) { @if ($index + 2 > currentPage -
+    maxSize && $index + 2 <= currentPage + maxSize ) { <li>
+      <button [ngClass]="{ active: $index + 1 === currentPage }" (click)="selectPageNumber($index + 1)">
+        {{ $index + 1 }}
+      </button>
+      </li>
+      }}
+
+      <!-- next button -->
+      @if ( showNextPreviousButtons ) {
+      <li [class]="verificForDisabled(totalPages.length)">
+        <button class="nextBt" (click)="next()">»</button>
+      </li>
+      }
+
+      <!-- last button -->
+      @if ( showFirstLastButtons ) {
+      <li [class]="verificForDisabled(totalPages.length)">
+        <button class="previousBt" (click)="selectPageNumber(totalPages.length)">
+          »»
+        </button>
+      </li>
+      }
+  </ul>
+
+  <p id="infoPagination">{{ currentPage }} de {{ totalPages.length }}</p>
+</nav>

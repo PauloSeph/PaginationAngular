@@ -1,0 +1,66 @@
+nav {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: repeat(12, 1fr);
+}
+
+ul {
+    display: flex;
+    padding: 0;
+    margin: 0;
+
+    li {
+        list-style: none;
+    }
+}
+
+#infoPagination {
+    align-self: center;
+    margin: 0;
+    color: rgb(24, 24, 24);
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+$borderColorBtn: rgba(199, 197, 197, 0.705);
+
+button {
+    width: 100%;
+    cursor: pointer;
+    padding: 15px;
+    font-size: 1rem;
+    border: 0;
+    border-top: 1px solid $borderColorBtn;
+    border-bottom: 1px solid $borderColorBtn;
+    border-left: 1px solid $borderColorBtn;
+    text-align: center;
+}
+
+button:not(.active):hover {
+    background-color: rgb(87, 79, 70);
+    color: white;
+}
+
+.firstBt {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.previousBt {
+    border-right: 1px solid $borderColorBtn;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.active {
+    background-color: rgb(53, 49, 44);
+    color: white;
+}
+
+.disabled button {
+    background-color: #a19d9d3b; /* Cor para botão desabilitado */
+    color: #666666; /* Cor do texto do botão desabilitado */
+    opacity: 0.6;
+    cursor: not-allowed;
+}
