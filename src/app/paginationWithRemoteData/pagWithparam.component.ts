@@ -6,12 +6,12 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 
 @Component({
   selector: "app-paginationWithParam",
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: "./pagWithparam.component.html",
   styleUrl: "./pagWithparam.component.scss",
 })
@@ -19,7 +19,7 @@ export class pagWithparamComponent {
   constructor(private router: Router) {}
 
   /** O total de registros */
-  @Input() collectionSize: number = 50;
+  @Input() collectionSize: number = 555;
 
   /** Tamanho das paginas, que será usado para ver a quantidade de paginas - talvez nem fosse preciso estar aqui */
   @Input() pageSize: number = 10;
@@ -43,37 +43,34 @@ export class pagWithparamComponent {
   @Output() pageSelect = new EventEmitter<number>();
 
   /** variavel usada para armazena a quantidade de paginas, para serem definidas os botões */
-  totalPages: number[] = [];
-
-  // Total de pages é determinado pelo tamanho do tamanho da pagina.
+  sequenceTotalPages: number[] = [];
 
   /** Gerando uma sequencia de posições no Array com base no total de paginas */
-  // ele nao gera dados igualmente como na paginação simples que vimos. Por isso os indices é o que contaram nesse caso,
-  // cada indice corresponde a uma pagina.
+  // Total de pages é determinado pelo tamanho do tamanho da pagina.
   public generateSequence() {
-    this.totalPages = Array(Math.ceil(this.collectionSize / this.pageSize));
+    let totalPages = Math.ceil(this.collectionSize / this.pageSize);
+    this.sequenceTotalPages = Array(totalPages);
   }
 
   ngOnInit(): void {
     this.generateSequence();
-    this.navigation();
+    this.navigateToNextPage();
   }
 
   ngOnChanges(changes: SimpleChanges) {
     this.generateSequence();
   }
 
-  public navigation() {
+  public navigateToNextPage() {
     this.router.navigate([], {
       queryParams: { currentPage: this.currentPage, pageSize: this.pageSize },
-      // queryParamsHandling: "merge",
     });
   }
 
   /** Set page number */
   selectPageNumber(pageNumber: number) {
     this.currentPage = pageNumber;
-    this.navigation();
+    this.navigateToNextPage();
     this.pageSelect.emit(pageNumber);
   }
 
@@ -81,7 +78,7 @@ export class pagWithparamComponent {
   next() {
     const nextPage = this.currentPage + 1;
     // nextPage <= this.totalPages.length && this.selectPageNumber(nextPage); // Equivalente a sintaxe tradicional (porém sintaxe resumida para verificar a expressao e se for verdadeira chamaria o metodo)
-    if (nextPage <= this.totalPages.length) {
+    if (nextPage <= this.sequenceTotalPages.length) {
       this.selectPageNumber(nextPage);
       this.pageSelect.emit(this.currentPage);
     }

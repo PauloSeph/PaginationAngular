@@ -15,8 +15,8 @@
     }
 
     <!-- page numbers -->
-    @for (page of totalPages; track $index) { @if ($index + 2 > currentPage -
-    maxSize && $index + 2 <= currentPage + maxSize ) { <li>
+    @for (page of sequenceTotalPages; track $index) { @if ($index + 3 > currentPage -
+    maxSize && $index + 3 <= currentPage + maxSize ) { <li>
       <button [ngClass]="{ active: $index + 1 === currentPage }" (click)="selectPageNumber($index + 1)">
         {{ $index + 1 }}
       </button>
@@ -25,20 +25,21 @@
 
       <!-- next button -->
       @if ( showNextPreviousButtons ) {
-      <li [class]="verificForDisabled(totalPages.length)">
+      <li [class]="verificForDisabled(sequenceTotalPages.length)">
         <button class="nextBt" (click)="next()">»</button>
       </li>
       }
 
       <!-- last button -->
       @if ( showFirstLastButtons ) {
-      <li [class]="verificForDisabled(totalPages.length)">
-        <button class="previousBt" (click)="selectPageNumber(totalPages.length)">
+      <li [class]="verificForDisabled(sequenceTotalPages.length)">
+        <button class="previousBt" (click)="selectPageNumber(sequenceTotalPages.length)">
           »»
         </button>
       </li>
       }
   </ul>
 
-  <p id="infoPagination">{{ currentPage }} de {{ totalPages.length }}</p>
+  <p id="infoPagination">{{ currentPage }} de {{ sequenceTotalPages.length }}</p>
+
 </nav>
