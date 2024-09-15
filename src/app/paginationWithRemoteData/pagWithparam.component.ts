@@ -63,14 +63,14 @@ export class pagWithparamComponent {
   }
 
   public navigation() {
-    // this.router.navigate(["/productList"], {
-    //   queryParams: { currentPage: this.currentPage, pageSize: this.pageSize },
-    //   queryParamsHandling: "preserve",
-    // });
+    this.router.navigate([], {
+      queryParams: { currentPage: this.currentPage, pageSize: this.pageSize },
+    });
   }
 
   /** Set page number */
   selectPageNumber(pageNumber: number) {
+    this.navigation();
     this.currentPage = pageNumber;
     this.pageSelect.emit(pageNumber);
   }
