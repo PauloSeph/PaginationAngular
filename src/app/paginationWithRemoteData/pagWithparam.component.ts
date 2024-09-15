@@ -19,7 +19,7 @@ export class pagWithparamComponent {
   constructor(private router: Router) {}
 
   /** O total de registros */
-  @Input() collectionSize: number = 20;
+  @Input() collectionSize: number = 50;
 
   /** Tamanho das paginas, que será usado para ver a quantidade de paginas - talvez nem fosse preciso estar aqui */
   @Input() pageSize: number = 10;
@@ -56,6 +56,7 @@ export class pagWithparamComponent {
 
   ngOnInit(): void {
     this.generateSequence();
+    this.navigation();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -65,13 +66,14 @@ export class pagWithparamComponent {
   public navigation() {
     this.router.navigate([], {
       queryParams: { currentPage: this.currentPage, pageSize: this.pageSize },
+      // queryParamsHandling: "merge",
     });
   }
 
   /** Set page number */
   selectPageNumber(pageNumber: number) {
-    this.navigation();
     this.currentPage = pageNumber;
+    this.navigation();
     this.pageSelect.emit(pageNumber);
   }
 
