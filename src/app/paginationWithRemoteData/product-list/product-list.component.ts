@@ -14,9 +14,21 @@ import { ActivatedRoute } from "@angular/router";
 export class ProductListComponent {
   public activatedRoute = inject(ActivatedRoute);
 
+  public pageSize!: number;
+  public currentPage: number = null!;
+  // public data = data;
+
+  /** Essa lógica estará no banco, pois no banco precisamos apenas dos itens por pagina e currence page também*/
+  paginatedData() {
+    const start = (this.currentPage! - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    // return this.data.slice(start, end);
+  }
+
   ngOnInit() {
-    this.activatedRoute.queryParamMap.subscribe((params) =>
-      console.log(params)
-    );
+    this.activatedRoute.queryParamMap.subscribe((params) => {
+      this.currentPage = Number.parseInt(params.get("page")!);
+      this.pageSize = Number.parseInt(params.get("size")!);
+    });
   }
 }

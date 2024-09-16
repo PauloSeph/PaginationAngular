@@ -6,7 +6,7 @@ import {
   Output,
   SimpleChanges,
 } from "@angular/core";
-import { Router, RouterLink } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 
 @Component({
   selector: "app-paginationWithParam",
@@ -16,16 +16,19 @@ import { Router, RouterLink } from "@angular/router";
   styleUrl: "./pagWithparam.component.scss",
 })
 export class pagWithparamComponent {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private activatedRouter: ActivatedRoute
+  ) {}
 
   /** O total de registros */
-  @Input() collectionSize: number = 555;
+  @Input() totalPages: number = 30;
 
-  /** Tamanho das paginas, que será usado para ver a quantidade de paginas - talvez nem fosse preciso estar aqui */
+  /** Tamanho das paginas, que será usado para ver a quantidade de paginas*/
   @Input() pageSize: number = 10;
 
   /** Current page - pagina atual*/
-  @Input() currentPage = 1;
+  @Input() currentPage = 1; // inicializando na pagina 1
 
   /** The number of buttons to show either side of the current page */
   @Input() maxSize = 3;
@@ -39,31 +42,38 @@ export class pagWithparamComponent {
   /** Display small pagination buttons - isso é para aplicar estilo CSS */
   @Input() small = false;
 
-  /** Notifica o pai com o valor atual da pagina selecioanda */
-  @Output() pageSelect = new EventEmitter<number>();
-
   /** variavel usada para armazena a quantidade de paginas, para serem definidas os botões */
-  sequenceTotalPages: number[] = [];
+  public sequenceTotalPages: number[] = [];
 
   /** Gerando uma sequencia de posições no Array com base no total de paginas */
   // Total de pages é determinado pelo tamanho do tamanho da pagina.
   public generateSequence() {
-    let totalPages = Math.ceil(this.collectionSize / this.pageSize);
-    this.sequenceTotalPages = Array(totalPages);
+    this.sequenceTotalPages = Array(this.totalPages);
   }
 
   ngOnInit(): void {
     this.generateSequence();
-    this.navigateToNextPage();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnCheck(changes: SimpleChanges) {
     this.generateSequence();
   }
 
+  ngDoCheck() {
+    // sincronizando os dados enviados na URL para currentPage.
+    this.activatedRouter.queryParamMap.subscribe((params) => {
+      let current = Number.parseInt(params.get("page")!);
+
+      if (current <= this.sequenceTotalPages.length && current >= 1) {
+        this.currentPage = current;
+      }
+    });
+  }
+
   public navigateToNextPage() {
+    console.log(this.currentPage);
     this.router.navigate([], {
-      queryParams: { currentPage: this.currentPage, pageSize: this.pageSize },
+      queryParams: { page: this.currentPage, size: this.pageSize },
     });
   }
 
@@ -71,7 +81,6 @@ export class pagWithparamComponent {
   selectPageNumber(pageNumber: number) {
     this.currentPage = pageNumber;
     this.navigateToNextPage();
-    this.pageSelect.emit(pageNumber);
   }
 
   /** Set next page number */
@@ -80,7 +89,6 @@ export class pagWithparamComponent {
     // nextPage <= this.totalPages.length && this.selectPageNumber(nextPage); // Equivalente a sintaxe tradicional (porém sintaxe resumida para verificar a expressao e se for verdadeira chamaria o metodo)
     if (nextPage <= this.sequenceTotalPages.length) {
       this.selectPageNumber(nextPage);
-      this.pageSelect.emit(this.currentPage);
     }
   }
 
@@ -90,7 +98,6 @@ export class pagWithparamComponent {
     // previousPage >= 1 && this.selectPageNumber(previousPage); --  // Equivalente a sintaxe tradicional (porém sintaxe resumida para verificar a expressao e se for verdadeira chamaria o metodo)
     if (previousPage >= 1) {
       this.selectPageNumber(previousPage);
-      this.pageSelect.emit(this.currentPage);
     }
   }
 

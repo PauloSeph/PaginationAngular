@@ -17,6 +17,7 @@ export class ListPersonExempleComponent {
   public currentPage = 1;
   public data = data;
 
+  /** Obtendo o range de itens para pegar dentro do nosso array de registros local*/
   paginatedData() {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
