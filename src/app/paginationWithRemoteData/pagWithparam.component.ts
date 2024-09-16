@@ -21,17 +21,8 @@ export class pagWithparamComponent {
     private activatedRouter: ActivatedRoute
   ) {}
 
-  /** O total de registros */
-  @Input() totalPages: number = 30;
-
-  /** Tamanho das paginas, que será usado para ver a quantidade de paginas*/
-  @Input() pageSize: number = 10;
-
-  /** Current page - pagina atual*/
-  @Input() currentPage = 1; // inicializando na pagina 1
-
   /** The number of buttons to show either side of the current page */
-  @Input() maxSize = 3;
+  @Input() maxSize = 2;
 
   /** Display the First/Last buttons - mostrar o primeiro e ultimo button*/
   @Input() showFirstLastButtons = true;
@@ -41,6 +32,15 @@ export class pagWithparamComponent {
 
   /** Display small pagination buttons - isso é para aplicar estilo CSS */
   @Input() small = false;
+
+  /** O total de registros */
+  @Input() totalPages!: number;
+
+  /** Tamanho das paginas, que será usado para ver a quantidade de paginas*/
+  @Input() pageSize!: number;
+
+  /** Current page - pagina atual */
+  public currentPage!: number;
 
   /** variavel usada para armazena a quantidade de paginas, para serem definidas os botões */
   public sequenceTotalPages: number[] = [];
@@ -52,17 +52,22 @@ export class pagWithparamComponent {
   }
 
   ngOnInit(): void {
+    console.log(`OnINIT Pagination`);
     this.generateSequence();
+    this.currentPage = 1;
+    this.updateQueryParam(); // atualizando a url com QueryParam.
+    this.navigateToNextPage(); //
   }
 
   ngOnCheck(changes: SimpleChanges) {
     // this.generateSequence();
   }
 
-  ngDoCheck() {
-    // Pegandos os dados enviados pelo queryParam na URL para atualizar também como currentPage.
+  //* Pegandos os dados enviados pelo queryParam na URL para atualizar também como currentPage. */
+  updateQueryParam() {
     this.activatedRouter.queryParamMap.subscribe((params) => {
       let current = Number.parseInt(params.get("page")!);
+      console.log(`Pagina atual ${current}`);
 
       if (current <= this.sequenceTotalPages.length && current >= 1) {
         this.currentPage = current;
@@ -70,8 +75,6 @@ export class pagWithparamComponent {
     });
   }
 
-  // tem que ver como inicializar a rota com a navegação, porém, sempre que modificamos a URL manualmente, ele cria o component
-  // de novo, logo se tentarmos passar a URL direto no NgOnInit, sempre vai pegar esse valor.
   public navigateToNextPage() {
     this.router.navigate([], {
       queryParams: { page: this.currentPage },

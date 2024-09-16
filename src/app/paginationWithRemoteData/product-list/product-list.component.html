@@ -1,4 +1,21 @@
 <h2>Product List comp</h2>
 
+<table>
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Idade</th>
+        </tr>
+    </thead>
 
-<app-paginationWithParam></app-paginationWithParam>
+    <tbody>
+        @for (item of data; track $index) {
+        <tr>
+            <th>{{ item.name }}</th>
+            <th>{{ item.idade }}</th>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<app-paginationWithParam [pageSize]="pageSize" [totalPages]="totalPage"></app-paginationWithParam>

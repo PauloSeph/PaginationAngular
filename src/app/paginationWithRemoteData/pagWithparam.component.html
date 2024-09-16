@@ -15,8 +15,8 @@
     }
 
     <!-- page numbers -->
-    @for (page of sequenceTotalPages; track $index) { @if ($index + 3 > currentPage -
-    maxSize && $index + 3 <= currentPage + maxSize ) { <li>
+    @for (page of sequenceTotalPages; track $index) { @if ($index + 1 > currentPage -
+    maxSize && $index + 1 <= currentPage + maxSize ) { <li>
       <button [ngClass]="{ active: $index + 1 === currentPage }" (click)="selectPageNumber($index + 1)">
         {{ $index + 1 }}
       </button>
