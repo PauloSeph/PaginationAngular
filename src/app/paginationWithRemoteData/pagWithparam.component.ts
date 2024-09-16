@@ -56,11 +56,11 @@ export class pagWithparamComponent {
   }
 
   ngOnCheck(changes: SimpleChanges) {
-    this.generateSequence();
+    // this.generateSequence();
   }
 
   ngDoCheck() {
-    // sincronizando os dados enviados na URL para currentPage.
+    // Pegandos os dados enviados pelo queryParam na URL para atualizar também como currentPage.
     this.activatedRouter.queryParamMap.subscribe((params) => {
       let current = Number.parseInt(params.get("page")!);
 
@@ -70,10 +70,11 @@ export class pagWithparamComponent {
     });
   }
 
+  // tem que ver como inicializar a rota com a navegação, porém, sempre que modificamos a URL manualmente, ele cria o component
+  // de novo, logo se tentarmos passar a URL direto no NgOnInit, sempre vai pegar esse valor.
   public navigateToNextPage() {
-    console.log(this.currentPage);
     this.router.navigate([], {
-      queryParams: { page: this.currentPage, size: this.pageSize },
+      queryParams: { page: this.currentPage },
     });
   }
 
