@@ -21,16 +21,15 @@ import { Person } from "./Person";
 })
 export class ProductListComponent {
   public activatedRoute = inject(ActivatedRoute);
+  public prodService = inject(ProductService);
+  public data!: Person[];
 
   /** Aqui estou fornecendo o pageSize no componente, mas poderia ser definido pelo usuário por exemplo */
   public pageSize: number = 10;
   public currentPage!: number;
   public totalPage!: number;
-  public data!: Person[];
-  public prodService = inject(ProductService);
 
   /** Essa lógica estará no banco, pois no banco precisamos apenas dos itens por pagina e currence page também*/
-
   public getData() {
     return this.prodService.getItemsPaginated(this.currentPage, this.pageSize);
   }
@@ -38,17 +37,19 @@ export class ProductListComponent {
   ngOnInit() {
     this.totalPage = this.prodService.getTotalPages(this.pageSize);
     this.activatedRoute.queryParamMap.subscribe((params) => {
-      this.currentPage = Number.parseInt(params.get("page")!) || 1;
+      let param = Number.parseInt(params.get("page")!);
+
+      if (param <= this.totalPage) {
+        this.currentPage = param || 1;
+      } else {
+        this.currentPage = 1;
+      }
     });
 
     this.data = this.getData();
-    console.log(this.data);
-    console.log("OnInit");
   }
 
-  ngDoCheck() {
-    this.data = this.getData();
-    console.log(this.data);
-    console.log("DoCHECK");
-  }
+  // ngDoCheck() {
+  //   this.data = this.getData();
+  // }
 }

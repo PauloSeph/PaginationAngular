@@ -52,27 +52,33 @@ export class pagWithparamComponent {
   }
 
   ngOnInit(): void {
-    console.log(`OnINIT Pagination`);
     this.generateSequence();
     this.currentPage = 1;
     this.updateQueryParam(); // atualizando a url com QueryParam.
-    this.navigateToNextPage(); //
+
+    // this.navigateToNextPage(); // atualizando queryParam
   }
 
-  ngOnCheck(changes: SimpleChanges) {
-    // this.generateSequence();
-  }
-
-  //* Pegandos os dados enviados pelo queryParam na URL para atualizar também como currentPage. */
+  //* Pegandos valor que for passado na URL do queryParam para atualizar também como currentPage. */
   updateQueryParam() {
-    this.activatedRouter.queryParamMap.subscribe((params) => {
-      let current = Number.parseInt(params.get("page")!);
-      console.log(`Pagina atual ${current}`);
+    let queryParam = Number.parseInt(
+      this.activatedRouter.snapshot.queryParamMap.get("page")!
+    );
 
-      if (current <= this.sequenceTotalPages.length && current >= 1) {
-        this.currentPage = current;
-      }
-    });
+    let initialParam = queryParam || 1;
+    console.log(initialParam);
+
+    if (initialParam <= this.sequenceTotalPages.length && initialParam >= 1) {
+      console.log("To sendo chamado");
+      this.router.navigate([], {
+        queryParams: { page: initialParam },
+      });
+    } else {
+      this.router.navigate([], {
+        queryParams: { page: this.currentPage },
+      });
+      this.currentPage = 1;
+    }
   }
 
   public navigateToNextPage() {
