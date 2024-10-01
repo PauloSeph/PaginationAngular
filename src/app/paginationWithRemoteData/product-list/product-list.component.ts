@@ -1,11 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  SimpleChanges,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { PaginationComponent } from "../../paginationWithLocalData/pagination/pagination.component";
 import { pagWithparamComponent } from "../pagWithparam.component";
 import { ActivatedRoute } from "@angular/router";
 import { ProductService } from "./product.service";
@@ -26,16 +20,19 @@ export class ProductListComponent {
 
   /** Aqui estou fornecendo o pageSize no componente, mas poderia ser definido pelo usuário por exemplo */
   public pageSize: number = 10;
+
   public currentPage!: number;
   public totalPage!: number;
 
-  /** Essa lógica estará no banco, pois no banco precisamos apenas dos itens por pagina e currence page também*/
+  /** Essa lógica estará no banco, só precisamos das mesmas informações: itens por pagina e a currence page */
   public getData() {
     return this.prodService.getItemsPaginated(this.currentPage, this.pageSize);
   }
 
   ngOnInit() {
-    this.totalPage = this.prodService.getTotalPages(this.pageSize);
+    this.totalPage = this.prodService.getTotalPages(this.pageSize); // primeiro temos o total de paginas
+
+    // depois pegamos o parametro da rota.
     this.activatedRoute.queryParamMap.subscribe((params) => {
       let param = Number.parseInt(params.get("page")!);
 
@@ -46,10 +43,11 @@ export class ProductListComponent {
       }
     });
 
-    this.data = this.getData();
+    this.data = this.getData(); // depois obtemos os dados.
   }
 
-  // ngDoCheck() {
-  //   this.data = this.getData();
-  // }
+  ngDoCheck() {
+    //  Atualizar os dados quando a pagina mudar *quando evento ocorrer no component pagination*, já que o change detection acionar.
+    this.data = this.getData();
+  }
 }

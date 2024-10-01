@@ -1,11 +1,5 @@
 import { CommonModule } from "@angular/common";
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  SimpleChanges,
-} from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 
 @Component({
